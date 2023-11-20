@@ -17,14 +17,14 @@ public class CurrencyConversionController {
     @Resource
     private CurrencyExchangeProxy proxy;
 
-    @GetMapping("/currency-exchange/from/{from}/to/{to}/quantity/{quantity}")
+    @GetMapping("/currency-conversion/from/{from}/to/{to}/quantity/{quantity}")
     public CurrencyConversionResource getConversionMultiple(@PathVariable String from,
                                                           @PathVariable String to,
                                                           @PathVariable BigDecimal quantity) {
         CurrencyConversionResource exchangeResponse = proxy.getConversionMultiple(from, to);
 
         BigDecimal totalAmount = exchangeResponse.conversionMultiple().multiply(quantity);
-        return new CurrencyConversionResource(from, to, exchangeResponse.conversionMultiple(), totalAmount, environment.getProperty("local.server.port"));
+        return new CurrencyConversionResource(from, to, exchangeResponse.conversionMultiple(), totalAmount, exchangeResponse.environment());
     }
 
 }
