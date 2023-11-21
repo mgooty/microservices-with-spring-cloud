@@ -13,7 +13,10 @@ public class ApiGatewayConfig {
         return builder.routes()
                 .route(p -> p.path("/currency-conversion/**").uri("lb://currency-conversion"))
                 .route(p -> p.path("/currency-exchange/**").uri("lb://currency-exchange"))
+                .route(p -> p.path("/currency-rates-manager/**")
+                                .filters(
+                                        f -> f.rewritePath("/currency-rates-manager", "/currency-exchange")
+                                ).uri("lb://currency-exchange"))
                 .build();
-
     }
 }
